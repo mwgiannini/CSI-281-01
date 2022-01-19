@@ -22,19 +22,19 @@
 
 /*      Pre:  None
  *     Post:  Returned string is a valid filename or the exit code
- *  Purpose:  Prompts user for an input file name
+ *  Purpose:  Prompt the user for an input file name
  *********************************************************/
 std::string getInputFileName(const std::string& exitCode);
 
 /*      Pre:  None
- *     Post:  Returned string is a valid filename
- *  Purpose:  Prompts user for an output file name
+ *     Post:  None
+ *  Purpose:  Prompt the user for an output file name
  *********************************************************/
 std::string getOutputFileName();
 
 
 /*      Pre:  None
- *     Post:  Returns true if fileName is valid
- *  Purpose:  Determines if a given file name is valid
+ *     Post:  Returns true if the given file exists
+ *  Purpose:  Determine if a given file name is valid
  *********************************************************/
 bool isValidFileName(const std::string& fileName);

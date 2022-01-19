@@ -25,18 +25,18 @@
 class Message
 {
 public:
-    /*      Pre:  inputFileName is a valid fileName
-     *     Post:  File message is loaded into an array of words
+    /*      Pre:  Given file exists with the proper message format
+     *     Post:  Member array "words" contains the message and numWords, the number of words
      *  Purpose:  Construct a message object
      *********************************************************/
-    Message(const std::string& inputFileName);
+    Message(const std::string &inputFileName);
 
-    /*      Pre:  none
-     *     Post:  A file is written with the encrypted data
-     *  Purpose:  Write an encrypted copy of the file
+    /*      Pre:  None
+     *     Post:  A file containing an encrypted version of the message is written to the given location
+     *  Purpose:  Save an encrypted copy of the message
      *********************************************************/
     void encrypt(const std::string &outputFileName, const Codebook &codebook);
-    
+
 private:
     static const int MAX_WORDS = 1000;
     std::string words[MAX_WORDS];

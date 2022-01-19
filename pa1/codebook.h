@@ -23,21 +23,21 @@
 class Codebook
 {
 public:
-    /*      Pre:  fileName is a valid file name
-     *     Post:  An object is constructed and populated with data from the given file
+    /*      Pre:  Given file exists with the proper codebook format
+     *     Post:  A linked list is created with nodes containing the word-code pairs from the given file
      *  Purpose:  Construct a Codebook object
      *********************************************************/
     Codebook(const std::string& fileName);
 
 
-    /*      Pre:  none
-     *     Post:  Object is destroyed and memory is deallocated
+    /*      Pre:  None
+     *     Post:  Linked list memory deallocated
      *  Purpose:  Destroy a Codebook object
      *********************************************************/
     ~Codebook();
 
-    /*      Pre:  none
-     *     Post:  Returns the corresponding code for the given word or the word if it is not in the list
+    /*      Pre:  None
+     *     Post:  Returns the corresponding code for the given word or the word itself if it is not in the list
      *  Purpose:  Retrieve the corresponding code for a given word
      *********************************************************/
     std::string retrieveCodeFor(const std::string& word) const;
@@ -50,15 +50,15 @@ private:
         Node *next;
     };
 
-    /*      Pre:  fileName is a valid file name
-     *     Post:  A linked list is created from the data in the file
-     *  Purpose:  Loading the codebook file into memory
+    /*      Pre:  Given file exists with the proper codebook format
+     *     Post:  Contents of the file are added to the end of the linked list
+     *  Purpose:  Load the codebook file into memory
      *********************************************************/
     void loadFile(const std::string& fileName);
 
-    /*      Pre:  none
-     *     Post:  Node is appened to the list
-     *  Purpose:  Adding Nodes to the linked list
+    /*      Pre:  None
+     *     Post:  The given Node is appended to the linked list
+     *  Purpose:  Add a Node to the linked list
      *********************************************************/
     void addNode(Node* newNode);
 
