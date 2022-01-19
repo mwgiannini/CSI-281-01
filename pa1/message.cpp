@@ -24,19 +24,19 @@
 Message::Message(const std::string &inputFileName)
 {
     std::ifstream file(inputFileName);
+    this->numWords = 0;
 
-    std::string currentWord;
     while (!file.eof())
     {
-        file >> currentWord;
-        words.push_back(currentWord);
+        file >> words[numWords];
+        numWords++;
     }
 }
 
 void Message::encrypt(const std::string &outputFileName, const Codebook &codebook)
 {
     std::stringstream output;
-    for(int i = 0; i < words.size(); i++)
+    for(int i = 0; i < numWords; i++)
     {
         output << codebook.retrieveCodeFor(words[i]) << " ";
     }

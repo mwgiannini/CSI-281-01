@@ -38,5 +38,7 @@ public:
     void encrypt(const std::string &outputFileName, const Codebook &codebook);
     
 private:
-    std::vector<std::string> words;
+    static const int MAX_WORDS = 1000;
+    std::string words[MAX_WORDS];
+    int numWords;
 };
