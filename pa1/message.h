@@ -16,33 +16,27 @@
     plagiarism checking)
 */
 
-#include <iostream>
+#pragma once
+#include <vector>
+#include <string>
 #include "codebook.h"
-#include "message.h"
-#include "helper.h"
+// A class for encrypting and decrypting messages
 
-int main()
+class Message
 {
-    const std::string CODEBOOK_FILENAME = "codes.txt";
-    const std::string EXIT_CODE = "exit";
+public:
+    /*      Pre:  inputFileName is a valid fileName
+     *     Post:  File message is loaded into an array of words
+     *  Purpose:  Construct a message object
+     *********************************************************/
+    Message(const std::string& inputFileName);
 
-    // Load the codebook into a linked list
-    Codebook codebook(CODEBOOK_FILENAME);
-
-    while (true)
-    {
-        // Get input file name from the user
-        std::string inputFileName = getInputFileName(EXIT_CODE);
-        if (inputFileName == EXIT_CODE)
-            break;
-
-        // Create message object using given file
-        Message message(inputFileName);
-
-        // Save a encrypted version of the message to the given location
-        std::string outputFileName = getOutputFileName();
-        message.encrypt(outputFileName, codebook);
-    }
-
-    return 0;
-}
+    /*      Pre:  none
+     *     Post:  A file is written with the encrypted data
+     *  Purpose:  Write an encrypted copy of the file
+     *********************************************************/
+    void encrypt(const std::string &outputFileName, const Codebook &codebook);
+    
+private:
+    std::vector<std::string> words;
+};

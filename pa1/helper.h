@@ -16,33 +16,25 @@
     plagiarism checking)
 */
 
-#include <iostream>
-#include "codebook.h"
-#include "message.h"
-#include "helper.h"
+#pragma once
+#include <string>
+// Helper functions
 
-int main()
-{
-    const std::string CODEBOOK_FILENAME = "codes.txt";
-    const std::string EXIT_CODE = "exit";
+/*      Pre:  None
+ *     Post:  Returned string is a valid filename or the exit code
+ *  Purpose:  Prompts user for an input file name
+ *********************************************************/
+std::string getInputFileName(const std::string& exitCode);
 
-    // Load the codebook into a linked list
-    Codebook codebook(CODEBOOK_FILENAME);
+/*      Pre:  None
+ *     Post:  Returned string is a valid filename
+ *  Purpose:  Prompts user for an output file name
+ *********************************************************/
+std::string getOutputFileName();
 
-    while (true)
-    {
-        // Get input file name from the user
-        std::string inputFileName = getInputFileName(EXIT_CODE);
-        if (inputFileName == EXIT_CODE)
-            break;
 
-        // Create message object using given file
-        Message message(inputFileName);
-
-        // Save a encrypted version of the message to the given location
-        std::string outputFileName = getOutputFileName();
-        message.encrypt(outputFileName, codebook);
-    }
-
-    return 0;
-}
+/*      Pre:  None
+ *     Post:  Returns true if fileName is valid
+ *  Purpose:  Determines if a given file name is valid
+ *********************************************************/
+bool isValidFileName(const std::string& fileName);

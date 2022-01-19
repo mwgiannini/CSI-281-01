@@ -16,33 +16,31 @@
     plagiarism checking)
 */
 
-#include <iostream>
-#include "codebook.h"
+#include <fstream>
+#include <sstream>
 #include "message.h"
-#include "helper.h"
+#include "codebook.h"
 
-int main()
+Message::Message(const std::string &inputFileName)
 {
-    const std::string CODEBOOK_FILENAME = "codes.txt";
-    const std::string EXIT_CODE = "exit";
+    std::ifstream file(inputFileName);
 
-    // Load the codebook into a linked list
-    Codebook codebook(CODEBOOK_FILENAME);
-
-    while (true)
+    std::string currentWord;
+    while (!file.eof())
     {
-        // Get input file name from the user
-        std::string inputFileName = getInputFileName(EXIT_CODE);
-        if (inputFileName == EXIT_CODE)
-            break;
+        file >> currentWord;
+        words.push_back(currentWord);
+    }
+}
 
-        // Create message object using given file
-        Message message(inputFileName);
-
-        // Save a encrypted version of the message to the given location
-        std::string outputFileName = getOutputFileName();
-        message.encrypt(outputFileName, codebook);
+void Message::encrypt(const std::string &outputFileName, const Codebook &codebook)
+{
+    std::stringstream output;
+    for(int i = 0; i < words.size(); i++)
+    {
+        output << codebook.retrieveCodeFor(words[i]) << " ";
     }
 
-    return 0;
+    std::ofstream outfile(outputFileName);
+    outfile << output.str();
 }
