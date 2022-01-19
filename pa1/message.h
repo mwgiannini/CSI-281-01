@@ -35,7 +35,7 @@ public:
      *     Post:  A file containing an encrypted version of the message is written to the given location
      *  Purpose:  Save an encrypted copy of the message
      *********************************************************/
-    void encrypt(const std::string &outputFileName, const Codebook &codebook);
+    void encrypt(const std::string &outputFilePath, const Codebook &codebook);
 
 private:
     static const int MAX_WORDS = 1000;

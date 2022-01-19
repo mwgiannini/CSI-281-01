@@ -17,6 +17,7 @@
 */
 
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include "message.h"
 #include "codebook.h"
@@ -33,14 +34,16 @@ Message::Message(const std::string &inputFileName)
     }
 }
 
-void Message::encrypt(const std::string &outputFileName, const Codebook &codebook)
+void Message::encrypt(const std::string &outputFilePath, const Codebook &codebook)
 {
     std::stringstream output;
-    for(int i = 0; i < numWords; i++)
+    for (int i = 0; i < numWords; i++)
     {
         output << codebook.retrieveCodeFor(words[i]) << " ";
     }
 
-    std::ofstream outfile(outputFileName);
+    std::ofstream outfile(outputFilePath);
     outfile << output.str();
+    
+    std::cout << "File has been saved to " << outputFilePath << "." << std::endl;
 }

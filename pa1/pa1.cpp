@@ -24,24 +24,26 @@
 int main()
 {
     const std::string CODEBOOK_FILENAME = "codes.txt";
+    const std::string UNENCRYPTED_PATH = "unencrypted/";
+    const std::string ENCRYPTED_PATH = "encrypted/";
     const std::string EXIT_CODE = "exit";
 
-    // Load the codebook into a linked list
+    // Load the codebook
     Codebook codebook(CODEBOOK_FILENAME);
 
     while (true)
     {
         // Get input file name from the user
-        std::string inputFileName = getInputFileName(EXIT_CODE);
+        std::string inputFileName = getInputFileName(EXIT_CODE, UNENCRYPTED_PATH);
         if (inputFileName == EXIT_CODE)
             break;
 
-        // Create message object using given file
-        Message message(inputFileName);
+        // Load the message
+        Message message(UNENCRYPTED_PATH + inputFileName);
 
         // Save a encrypted version of the message to the given location
-        std::string outputFileName = getOutputFileName();
-        message.encrypt(outputFileName, codebook);
+        std::string outputFileName = getOutputFileName(inputFileName);
+        message.encrypt(ENCRYPTED_PATH + outputFileName, codebook);
     }
 
     return 0;

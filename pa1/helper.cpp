@@ -18,44 +18,86 @@
 
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include "helper.h"
 
-std::string getInputFileName(const std::string& exitCode)
+std::string getInputFileName(const std::string& exitCode, const std::string &unencryptedPath)
 {
-    const std::string UNENCRYPTED_PATH = "unencrypted/";
-
-    std::string inputPrompt = "Enter a file name to encrypt: ";
     std::string input;
     bool validFileName;
     do 
     {
         // Get file name from user
-        std::cout << inputPrompt;
-        std::cin >> input;
+        std::cout << "Enter a file name to encrypt: ";
+        getline(std::cin, input);
         if(input == exitCode) return input;
 
         // Check if the file name is valid
-        validFileName = isValidFileName(UNENCRYPTED_PATH + input);
+        validFileName = isValidFileName(unencryptedPath + input);
+        if(!validFileName) std::cout << "File does not exist!" << std::endl;
     } while(!validFileName);
     
-    return UNENCRYPTED_PATH + input;
+    return input;
 }
 
-std::string getOutputFileName()
+std::string getOutputFileName(const std::string &inputFileName)
 {
-    const std::string ENCRYPTED_PATH = "encrypted/";
+    std::string outputFileName = "";
 
-    std::string inputPrompt = "Enter a location to save the encrypted file: ";
-    std::string input;
+    // Give the user a few choices to meet the switch statement specification
 
-    std::cout << inputPrompt;
-    std::cin >> input;
+    std::cout << "What would you like to call the encrypted file?" << std::endl;
+    std::cout << "1. temp.txt" << std::endl;
+    std::cout << "2. " + removeExtension(inputFileName) + "_encrypted.txt" << std::endl;
+    std::cout << "3. Custom Name" << std::endl;
+
+    int input;
+
+    while(outputFileName == "")
+    {
+        input = 0;
+        std::cin >> input;
+        switch(input)
+        {
+            case 1:
+                outputFileName = "temp.txt";
+                break;
+
+            case 2:
+                outputFileName = removeExtension(inputFileName) + "_encrypted.txt";
+                break;
+
+            case 3:
+                std::cout << "Enter a file name: ";
+                flushCin();
+                getline(std::cin, outputFileName);
+                break;
+
+            default:
+                // User input is invalid
+                flushCin();
+                std::cout << "Please enter 1, 2, or 3" << std::endl;
+        }
+    }
     
-    return ENCRYPTED_PATH + input;
+    return outputFileName;
 }
 
 bool isValidFileName(const std::string& fileName)
 {
     std::ifstream testOpen(fileName);
     return static_cast<bool>(testOpen);
+}
+
+std::string removeExtension(const std::string &fileName)
+{
+    int lastPeriod = fileName.find_last_of('.');
+    if (lastPeriod == std::string::npos) return fileName;
+    return fileName.substr(0, lastPeriod); 
+}
+
+void flushCin()
+{
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
