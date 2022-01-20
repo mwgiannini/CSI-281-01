@@ -1,4 +1,4 @@
-/*  Author: MW Giannini
+/*  Author: Legolas
     Class: CSI-281-01
     Assignment: pa1
     Date Assigned: January 17th 2022
