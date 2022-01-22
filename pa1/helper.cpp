@@ -57,6 +57,7 @@ std::string getOutputFileName(const std::string &inputFileName)
     {
         input = 0;
         std::cin >> input;
+        flushCin();
         switch(input)
         {
             case 1:
@@ -69,13 +70,10 @@ std::string getOutputFileName(const std::string &inputFileName)
 
             case 3:
                 std::cout << "Enter a file name: ";
-                flushCin();
                 getline(std::cin, outputFileName);
                 break;
 
-            default:
-                // User input is invalid
-                flushCin();
+            default: // User input is invalid
                 std::cout << "Please enter 1, 2, or 3" << std::endl;
         }
     }

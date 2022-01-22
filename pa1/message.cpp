@@ -37,9 +37,12 @@ Message::Message(const std::string &inputFileName)
 void Message::encrypt(const std::string &outputFilePath, const Codebook &codebook)
 {
     std::stringstream output;
-    for (int i = 0; i < numWords; i++)
+    for (int i = 0; i < this->numWords; i++)
     {
-        output << codebook.retrieveCodeFor(words[i]) << " ";
+        output << codebook.retrieveCodeFor(words[i]);
+
+        // Omit space after the last word
+        if(i < this->numWords-1) output << " ";
     }
 
     std::ofstream outfile(outputFilePath);
