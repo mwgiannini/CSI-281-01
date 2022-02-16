@@ -27,10 +27,11 @@ template <typename T>
 void bubbleSort(T list[], int size)
 {
   bool swapped = true;
+  int i;
   while(swapped)
   {
     swapped = false;
-    for(int i = 0; i < size-1; i++)
+    for(i = 0; i < size - 1; i++)
     {
       if(list[i+1] < list[i])
       {
@@ -49,10 +50,11 @@ Post: list is sorted in ascending order
 template <typename T>
 void insertionSort(T list[], int size)
 {
-  for(int i = 1; i < size; i++)
+  int value, i, j;
+  for(i = 1; i < size; i++)
   {
-    int value = list[i];
-    int j = i-1;
+    value = list[i];
+    j = i - 1;
     while(j >= 0 && list[j] > value)
     {
       list[j+1] = list[j];
@@ -70,11 +72,13 @@ Post: list is sorted in ascending order
 template <typename T>
 void selectionSort(T list[], int size)
 {
-  for(int i = 0; i < size-1; i++)
-  {
-    int minIndex = i;
+  int minIndex, i, j;
 
-    for(int j = i+1; j < size; j++)
+  for(i = 0; i < size - 1; i++)
+  {
+    minIndex = i;
+
+    for(j = i + 1; j < size; j++)
     {
       if(list[j] < list[minIndex])
         minIndex = j;
@@ -93,7 +97,9 @@ Post: list is sorted in ascending order
 template <typename T>
 void shellSort(T list[], int size)
 {
-  int gap = size/2;
+  int gap, i;
+
+  gap = size / 2;
 
   while(gap > 0)
   {

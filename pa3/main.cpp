@@ -76,9 +76,9 @@ void printTest(SortAlgorithm type, RandIntArray test)
 
 int main()
 {
-  int size = 1000;
-  int max = 100;
-  RandIntArray test(size, max);
+  int SIZE = 500;
+  int MAX = 100;
+  RandIntArray test(SIZE, MAX);
 
   printTest(Bubble, test);
   printTest(Selection, test);

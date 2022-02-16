@@ -40,7 +40,7 @@ struct RandIntArray
             this->array[i] = rand() % max + 1;
     }
 
-    /* Copy constructor */
+    // Copy constructor 
     RandIntArray(const RandIntArray &other)
     {
         this->size = other.size;
