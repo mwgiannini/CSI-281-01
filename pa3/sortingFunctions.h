@@ -27,7 +27,7 @@ template <typename T>
 void bubbleSort(T list[], int size)
 {
   bool swapped = true;
-  while(swapped == true)
+  while(swapped)
   {
     swapped = false;
     for(int i = 0; i < size-1; i++)
@@ -60,6 +60,55 @@ void insertionSort(T list[], int size)
     }
     list[j+1] = value;
   }
+}
+
+/* Sort an array using the selection sort algorithm
+
+Pre: list and size provided
+Post: list is sorted in ascending order
+*/
+template <typename T>
+void selectionSort(T list[], int size)
+{
+  for(int i = 0; i < size-1; i++)
+  {
+    int minIndex = i;
+
+    for(int j = i+1; j < size; j++)
+    {
+      if(list[j] < list[minIndex])
+        minIndex = j;
+    }
+
+    if(minIndex != i)
+      std::swap(list[i], list[minIndex]);
+  }
+}
+
+/* Sort an array using the shell sort algorithm
+
+Pre: list and size provided
+Post: list is sorted in ascending order
+*/
+template <typename T>
+void shellSort(T list[], int size)
+{
+  int gap = size/2;
+
+  while(gap > 0)
+  {
+    for(int i = 0; i < size - gap; i++)
+    {
+      if(list[i] > list[i + gap])
+      {
+        std::swap(list[i], list[i + gap]);
+      }
+    }
+
+    gap /= 2;
+  }
+
+  bubbleSort(list, size);
 }
 
 #endif

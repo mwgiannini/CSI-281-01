@@ -19,6 +19,14 @@
 #include "sortingFunctions.h"
 #include "RandIntArray.h"
 
+enum SortAlgorithm
+{
+  Bubble,
+  Selection,
+  Insertion,
+  Shell
+};
+
 /* Print an array to the console.
 
 Pre: Array and size provided
@@ -27,39 +35,55 @@ Post: Array is printed to console
 template <typename T>
 void printArray(const T list[], int size)
 {
-  for(int i = 0; i < size-1; i++)
+  for (int i = 0; i < size - 1; i++)
     std::cout << list[i] << ",";
-  std::cout << list[size-1] << std::endl;
+  std::cout << list[size - 1] << std::endl;
+}
+
+/* Test sort an random array of integers against the give algorithm
+
+Pre: The algorithm type and the RandIntArray are provided
+Post: Test is printed to console
+*/
+void printTest(SortAlgorithm type, RandIntArray test)
+{
+  std::cout << "\n\n";
+  printArray(test.array, test.size);
+  std::cout << "\n";
+  switch (type)
+  {
+  case Bubble:
+    std::cout << "...Bubble sort..." << std::endl;
+    bubbleSort(test.array, test.size);
+    break;
+  case Selection:
+    std::cout << "...Selection sort..." << std::endl;
+    selectionSort(test.array, test.size);
+    break;
+  case Insertion:
+    std::cout << "...Insertion sort..." << std::endl;
+    insertionSort(test.array, test.size);
+    break;
+  case Shell:
+    std::cout << "...Shell sort..." << std::endl;
+    shellSort(test.array, test.size);
+    break;
+  }
+  std::cout << "\n";
+  printArray(test.array, test.size);
+  std::cout << "\n\n";
 }
 
 int main()
 {
-    int size = 1000;
-    int max = 100;
+  int size = 1000;
+  int max = 100;
+  RandIntArray test(size, max);
 
-    std::cout << "\n\n";
+  printTest(Bubble, test);
+  printTest(Selection, test);
+  printTest(Insertion, test);
+  printTest(Shell, test);
 
-    {
-        RandIntArray bubbleTest(size, max);
-
-        printArray(bubbleTest.array, bubbleTest.size);
-        std::cout << "\n";
-        std::cout << "...Bubble sort..." << std::endl;
-        std::cout << "\n";
-        bubbleSort(bubbleTest.array, bubbleTest.size);
-        printArray(bubbleTest.array, bubbleTest.size);
-    }
-
-    std::cout << "\n\n\n\n";
-
-    {
-        RandIntArray insertionTest(size, max);
-
-        printArray(insertionTest.array, insertionTest.size);
-        std::cout << "\n";
-        std::cout << "...Insertion sort..." << std::endl;
-        std::cout << "\n";
-        insertionSort(insertionTest.array, insertionTest.size);
-        printArray(insertionTest.array, insertionTest.size);
-    }
+  return 0;
 }
