@@ -23,15 +23,15 @@
 int main()
 {
   int SIZE = 1000;
-  int MAX = 10000;
+  int MAX = 1000;
   RandIntArray test(SIZE, MAX);
 
-  //printTest(Bubble, test);
-  //printTest(Insertion, test);
-  //printTest(Merge, test);
-  //printTest(Quick, test);
-  //printTest(Selection, test);
-  //printTest(Shell, test);
+  printTest(Bubble, test);
+  printTest(Insertion, test);
+  printTest(Merge, test);
+  printTest(Quick, test);
+  printTest(Selection, test);
+  printTest(Shell, test);
 
   assert(sortTest(test));
 

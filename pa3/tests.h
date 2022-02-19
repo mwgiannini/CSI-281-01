@@ -1,3 +1,21 @@
+/*  Author: MW Giannini
+    Class: CSI-281-01
+    Assignment: PA3
+    Date Assigned: 02/10/2022
+    Due Date: 02/11/2022
+    Description: For tests on the pa3 sorting algorithms
+    Certification of Authenticity:
+    I certify that this is entirely my own work, except where I have given
+    fully-documented references to the work of others. I understand the definition and
+    consequences of plagiarism and acknowledge that the assessor of this assignment
+    may, for the purpose of assessing this assignment:
+    - Reproduce this assignment and provide a copy to another member of academic staff;
+    and/or
+    - Communicate a copy of this assignment to a plagiarism checking service (which may
+    then retain a copy of this assignment on its database for the purpose of future
+    plagiarism checking)
+*/
+
 #ifndef TESTS_H
 #define TESTS_H
 
@@ -28,10 +46,10 @@ void printArray(const T list[], int size)
   std::cout << list[size - 1] << std::endl;
 }
 
-/* Test sort an random array of integers against the give algorithm
+/* Print a random array of integers before and after sorting
 
 Pre: The algorithm type and the RandIntArray are provided
-Post: Test is printed to console
+Post: The test is printed to console
 */
 void printTest(SortAlgorithm type, RandIntArray test)
 {
@@ -71,9 +89,9 @@ void printTest(SortAlgorithm type, RandIntArray test)
 }
 
 
-/* Compare the output of a number of sorting algorithms against quicksort
+/* Compare the output of a number of sorting algorithms
 
-Pre: A test array is provided
+Pre: A test RandIntArray is provided
 Post: Returns true if all sorting algorithms produce the same sorted array
 */
 bool sortTest(RandIntArray test)
