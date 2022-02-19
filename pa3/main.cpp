@@ -15,75 +15,25 @@
     then retain a copy of this assignment on its database for the purpose of future
     plagiarism checking)
 */
-#include <iostream>
-#include "sortingFunctions.h"
+
 #include "RandIntArray.h"
-
-enum SortAlgorithm
-{
-  Bubble,
-  Selection,
-  Insertion,
-  Shell
-};
-
-/* Print an array to the console.
-
-Pre: Array and size provided
-Post: Array is printed to console
-*/
-template <typename T>
-void printArray(const T list[], int size)
-{
-  for (int i = 0; i < size - 1; i++)
-    std::cout << list[i] << ",";
-  std::cout << list[size - 1] << std::endl;
-}
-
-/* Test sort an random array of integers against the give algorithm
-
-Pre: The algorithm type and the RandIntArray are provided
-Post: Test is printed to console
-*/
-void printTest(SortAlgorithm type, RandIntArray test)
-{
-  std::cout << "\n\n";
-  printArray(test.array, test.size);
-  std::cout << "\n";
-  switch (type)
-  {
-  case Bubble:
-    std::cout << "...Bubble sort..." << std::endl;
-    bubbleSort(test.array, test.size);
-    break;
-  case Selection:
-    std::cout << "...Selection sort..." << std::endl;
-    selectionSort(test.array, test.size);
-    break;
-  case Insertion:
-    std::cout << "...Insertion sort..." << std::endl;
-    insertionSort(test.array, test.size);
-    break;
-  case Shell:
-    std::cout << "...Shell sort..." << std::endl;
-    shellSort(test.array, test.size);
-    break;
-  }
-  std::cout << "\n";
-  printArray(test.array, test.size);
-  std::cout << "\n\n";
-}
+#include "tests.h"
+#include <assert.h>
 
 int main()
 {
-  int SIZE = 500;
-  int MAX = 100;
+  int SIZE = 1000;
+  int MAX = 10000;
   RandIntArray test(SIZE, MAX);
 
-  printTest(Bubble, test);
-  printTest(Selection, test);
-  printTest(Insertion, test);
-  printTest(Shell, test);
+  //printTest(Bubble, test);
+  //printTest(Insertion, test);
+  //printTest(Merge, test);
+  //printTest(Quick, test);
+  //printTest(Selection, test);
+  //printTest(Shell, test);
+
+  assert(sortTest(test));
 
   return 0;
 }

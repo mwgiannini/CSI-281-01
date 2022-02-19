@@ -57,8 +57,10 @@ struct RandIntArray
     bool operator==(const RandIntArray &other)
     {
         for (int i = 0; i < this->size; i++)
+        {
             if(this->array[i] != other.array[i])
                 return false;
+        }
         return true;
     }
 };

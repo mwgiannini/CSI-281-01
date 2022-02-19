@@ -64,6 +64,118 @@ void insertionSort(T list[], int size)
   }
 }
 
+/* Merge two parts of a list in a sorted manner
+
+Pre: list, inclusive bounds, and midpoint provided
+Post: list is merged in a sorted manner between the bounds
+*/
+template <typename T> 
+void merge(T list[], int lowerBound, int mid, int upperBound)
+{
+  int size1, size2, i, j, k;
+
+  size1 = mid - lowerBound + 1;
+  size2 = upperBound - mid;
+
+  T* tmp1 = new T[size1];
+  T* tmp2 = new T[size2];
+
+  for(i = 0; i < size1; i++)
+    tmp1[i] = list[lowerBound + i];
+
+  for(j = 0; j < size2; j++)
+    tmp2[j] = list[mid + j + 1];
+
+  i = 0;
+  j = i;
+
+  for(k = lowerBound; k < upperBound && i < size1 && j < size2; k++)
+  {
+    if(tmp1[i] <= tmp2[j])
+    {
+      list[k] = tmp1[i];
+      i++;
+    }
+    else
+    {
+      list[k] = tmp2[j];
+      j++;
+    }
+  }
+
+  while(i < size1)
+  {
+    list[k] = tmp1[i];
+    i++;
+    k++;
+  }
+
+  while(j < size2)
+  {
+    list[k] = tmp2[j];
+    j++;
+    k++;
+  }
+
+  delete [] tmp1;
+  delete [] tmp2;
+}
+
+/* Sort an array using the merge sort algorithm
+
+Pre: list and inclusive bounds provided
+Post: list is sorted in ascending order between the bounds
+*/
+template <typename T> 
+void mergeSort(T list[], int lowerBound, int upperBound)
+{
+  int mid;
+
+  if(lowerBound < upperBound)
+  {
+    mid = (lowerBound + upperBound) / 2;
+    mergeSort(list, lowerBound, mid);
+    mergeSort(list, mid + 1, upperBound);
+    merge(list, lowerBound, mid, upperBound);
+  }
+}
+
+/* Sort an array using the quick sort algorithm
+
+Pre: list and inclusive bounds provided
+Post: list is sorted in ascending order between the bounds
+*/
+template <typename T> 
+void quickSort(T list[], int lowerBound, int upperBound)
+{
+  int pivot, i, j;
+
+  i = lowerBound;
+  j = upperBound;
+
+  pivot = list[(lowerBound + upperBound) / 2];
+
+  while(i <= j)
+  {
+    while(list[i] < pivot)
+      i++;
+    while(list[j] > pivot)
+      j--;
+
+    if(i <= j)
+    {
+      std::swap(list[i], list[j]);
+      i++;
+      j--;
+    }
+  }
+
+  if(lowerBound < j)
+    quickSort(list, lowerBound, j);
+  if(i < upperBound)
+    quickSort(list, i, upperBound);
+}
+
 /* Sort an array using the selection sort algorithm
 
 Pre: list and size provided
@@ -103,7 +215,7 @@ void shellSort(T list[], int size)
 
   while(gap > 0)
   {
-    for(int i = 0; i < size - gap; i++)
+    for(i = 0; i < size - gap; i++)
     {
       if(list[i] > list[i + gap])
       {
