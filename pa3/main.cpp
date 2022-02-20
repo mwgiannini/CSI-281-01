@@ -27,6 +27,7 @@ int main()
   RandIntArray test(SIZE, MAX);
 
   printTest(Bubble, test);
+  printTest(Gnome, test);
   printTest(Insertion, test);
   printTest(Merge, test);
   printTest(Quick, test);

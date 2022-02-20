@@ -42,6 +42,31 @@ void bubbleSort(T list[], int size)
   }
 }
 
+/* Sort an array using the gnome sort algorithm
+https://en.wikipedia.org/wiki/Gnome_sort
+I chose this one because it has a cool name and it
+is interesting how simple it is
+
+Pre: list and size provided
+Post: list is sorted in ascending order
+*/
+template <typename T>
+void gnomeSort(T list[], int size)
+{
+  int i = 0;
+
+  while(i < size)
+  {
+    if(i == 0 || list[i] >= list[i - 1])
+      i++;
+    else
+    {
+      std::swap(list[i], list[i - 1]);
+      i--;
+    }
+  }
+}
+
 /* Sort an array using the insertion sort algorithm
 
 Pre: list and size provided

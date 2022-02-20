@@ -26,6 +26,7 @@
 enum SortAlgorithm
 {
   Bubble,
+  Gnome,
   Merge,
   Quick,
   Selection,
@@ -62,6 +63,10 @@ void printTest(SortAlgorithm type, RandIntArray test)
         std::cout << "...Bubble sort..." << std::endl;
         bubbleSort(test.array, test.size);
         break;
+    case Gnome:
+        std::cout << "...Gnome sort..." << std::endl;
+        gnomeSort(test.array, test.size);
+        break;
     case Insertion:
         std::cout << "...Insertion sort..." << std::endl;
         insertionSort(test.array, test.size);
@@ -97,6 +102,7 @@ Post: Returns true if all sorting algorithms produce the same sorted array
 bool sortTest(RandIntArray test)
 {
     RandIntArray bubbleTest = test;
+    RandIntArray gnomeTest = test;
     RandIntArray insertionTest = test;
     RandIntArray mergeTest = test;
     RandIntArray quickTest = test;
@@ -104,6 +110,7 @@ bool sortTest(RandIntArray test)
     RandIntArray shellTest = test;
 
     bubbleSort(bubbleTest.array, bubbleTest.size);
+    gnomeSort(gnomeTest.array, gnomeTest.size);
     insertionSort(insertionTest.array, insertionTest.size);
     mergeSort(mergeTest.array, 0, mergeTest.size - 1);
     quickSort(quickTest.array, 0, quickTest.size - 1);
@@ -111,6 +118,7 @@ bool sortTest(RandIntArray test)
     shellSort(shellTest.array, shellTest.size);
 
     bool passed = quickTest == bubbleTest && 
+                quickTest == gnomeTest &&
                 quickTest == insertionTest && 
                 quickTest == mergeTest && 
                 quickTest == selectionTest && 
