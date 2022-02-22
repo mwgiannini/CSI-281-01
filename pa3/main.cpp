@@ -23,10 +23,10 @@
 
 int main()
 {
-  int N = 1000000;
+  int N = 10000;
 
   int *test = new int[N];
-  readArray(test, N, "test-3-average.dat");
+  readArray(test, N, "test-2-average.dat");
   std::cout << "Array created\n";
 
   double timeTaken = testSort(test, N, Merge);
@@ -36,5 +36,6 @@ int main()
 
   system("pause");
   delete [] test;
+
   return 0;
 }

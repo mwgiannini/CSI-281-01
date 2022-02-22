@@ -20,7 +20,6 @@
 #define GENERATEDATA_H
 
 #include <random>
-#include <chrono>
 #include <iostream>
 #include <fstream>
 #include "sortingFunctions.h"
@@ -61,25 +60,25 @@ void generateDataFiles()
         array1[i] = value; 
     }
 
-    writeArray<int>(array3, SIZE3, "test-3-average.dat");
-    writeArray<int>(array2, SIZE2, "test-2-average.dat");
-    writeArray<int>(array1, SIZE1, "test-1-average.dat");
+    writeArray(array3, SIZE3, "test-3-average.dat");
+    writeArray(array2, SIZE2, "test-2-average.dat");
+    writeArray(array1, SIZE1, "test-1-average.dat");
 
     quickSort(array1, 0, SIZE1 - 1);
     quickSort(array2, 0, SIZE2 - 1);
     quickSort(array3, 0, SIZE3 - 1);
 
-    writeArray<int>(array3, SIZE3, "test-3-best.dat");
-    writeArray<int>(array2, SIZE2, "test-2-best.dat");
-    writeArray<int>(array1, SIZE1, "test-1-best.dat");
+    writeArray(array3, SIZE3, "test-3-best.dat");
+    writeArray(array2, SIZE2, "test-2-best.dat");
+    writeArray(array1, SIZE1, "test-1-best.dat");
 
     reverseArray(array1, SIZE1);
     reverseArray(array2, SIZE2);
     reverseArray(array3, SIZE3);
 
-    writeArray<int>(array3, SIZE3, "test-3-worst.dat");
-    writeArray<int>(array2, SIZE2, "test-2-worst.dat");
-    writeArray<int>(array1, SIZE1, "test-1-worst.dat");
+    writeArray(array3, SIZE3, "test-3-worst.dat");
+    writeArray(array2, SIZE2, "test-2-worst.dat");
+    writeArray(array1, SIZE1, "test-1-worst.dat");
 
     delete [] array3;
     delete [] array2;

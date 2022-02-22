@@ -41,7 +41,7 @@ public:
     */
     double read();
 private:
-    std::chrono::_V2::system_clock::time_point startTime;
+    std::chrono::time_point<std::chrono::steady_clock> startTime;
 };
 
 #endif

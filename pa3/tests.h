@@ -26,7 +26,6 @@
 enum SortAlgorithm
 {
   Bubble,
-  Gnome,
   Merge,
   Quick,
   Selection,
