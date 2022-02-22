@@ -2,8 +2,8 @@
     Class: CSI-281-01
     Assignment: PA3
     Date Assigned: 02/21/2022
-    Due Date: 02/28/202
-    Description: A stub driver to test sortingFunctions.h
+    Due Date: 02/28/2022
+    Description: A simple interface for using the chrono library to time code execution.
     Certification of Authenticity:
     I certify that this is entirely my own work, except where I have given
     fully-documented references to the work of others. I understand the definition and
@@ -16,25 +16,32 @@
     plagiarism checking)
 */
 
-#include "generateData.h"
-#include "tests.h"
-#include <assert.h>
-#include <iomanip>
+#ifndef CODETIMER_H
+#define CODETIMER_H
 
-int main()
+#include <chrono>
+
+class CodeTimer
 {
-  int N = 1000000;
+public:
+    CodeTimer();
 
-  int *test = new int[N];
-  readArray(test, N, "test-3-average.dat");
-  std::cout << "Array created\n";
+    /* Start the timer
 
-  double timeTaken = testSort(test, N, Merge);
+    Pre: None
+    Post: Record the current time
+    */
+    void start();
 
-  std::cout << std::fixed << std::setprecision(15);
-  std::cout << "The test took  " << timeTaken << " seconds.\n";
+    /* Read the timer
 
-  system("pause");
-  delete [] test;
-  return 0;
-}
+    Pre: None
+    Post: Return the time in seconds since start was last called
+    If start was never called, return the age of the timer object
+    */
+    double read();
+private:
+    std::chrono::_V2::system_clock::time_point startTime;
+};
+
+#endif

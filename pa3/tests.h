@@ -1,8 +1,8 @@
 /*  Author: MW Giannini
     Class: CSI-281-01
     Assignment: PA3
-    Date Assigned: 02/10/2022
-    Due Date: 02/11/2022
+    Date Assigned: 02/21/2022
+    Due Date: 02/28/202
     Description: For tests on the pa3 sorting algorithms
     Certification of Authenticity:
     I certify that this is entirely my own work, except where I have given
@@ -20,8 +20,8 @@
 #define TESTS_H
 
 #include <iostream>
+#include "CodeTimer/CodeTimer.h"
 #include "sortingFunctions.h"
-#include "RandIntArray.h"
 
 enum SortAlgorithm
 {
@@ -35,7 +35,6 @@ enum SortAlgorithm
 };
 
 /* Print an array to the console.
-
 Pre: Array and size provided
 Post: Array is printed to console
 */
@@ -47,84 +46,50 @@ void printArray(const T list[], int size)
   std::cout << list[size - 1] << std::endl;
 }
 
-/* Print a random array of integers before and after sorting
+/* Populate an array with values from the given data file
 
-Pre: The algorithm type and the RandIntArray are provided
-Post: The test is printed to console
+Pre: Provide array, size, and file name
+Post: Array contains data from file
 */
-void printTest(SortAlgorithm type, RandIntArray test)
+template <typename T>
+void readArray(T array[], int size, const std::string &fileName)
 {
-  std::cout << "\n\n";
-  printArray(test.array, test.size);
-  std::cout << "\n";
-  switch (type)
+  std::ifstream in;
+  in.open(fileName);
+
+  for(int i = 0; i < size; i++)
   {
-    case Bubble:
-        std::cout << "...Bubble sort..." << std::endl;
-        bubbleSort(test.array, test.size);
-        break;
-    case Gnome:
-        std::cout << "...Gnome sort..." << std::endl;
-        gnomeSort(test.array, test.size);
-        break;
-    case Insertion:
-        std::cout << "...Insertion sort..." << std::endl;
-        insertionSort(test.array, test.size);
-        break;
-    case Merge:
-        std::cout << "...Merge sort..." << std::endl;
-        mergeSort(test.array, 0, test.size - 1);
-        break;
-    case Quick:
-        std::cout << "...Quick sort..." << std::endl;
-        quickSort(test.array, 0, test.size - 1);
-        break;
-    case Selection:
-        std::cout << "...Selection sort..." << std::endl;
-        selectionSort(test.array, test.size);
-        break;
-    case Shell:
-        std::cout << "...Shell sort..." << std::endl;
-        shellSort(test.array, test.size);
-        break;
+    in >> array[i];
   }
-  std::cout << "\n";
-  printArray(test.array, test.size);
-  std::cout << "\n\n";
 }
 
+/* Test a given sorting algorithm on the given data
 
-/* Compare the output of a number of sorting algorithms
-
-Pre: A test RandIntArray is provided
-Post: Returns true if all sorting algorithms produce the same sorted array
+Pre: Provide array, size, and algorithm
+Post: Return elapsed time in seconds
 */
-bool sortTest(RandIntArray test)
+template <typename T>
+double testSort(T array[], int size, SortAlgorithm type)
 {
-    RandIntArray bubbleTest = test;
-    RandIntArray gnomeTest = test;
-    RandIntArray insertionTest = test;
-    RandIntArray mergeTest = test;
-    RandIntArray quickTest = test;
-    RandIntArray selectionTest = test;
-    RandIntArray shellTest = test;
+  CodeTimer timer;
 
-    bubbleSort(bubbleTest.array, bubbleTest.size);
-    gnomeSort(gnomeTest.array, gnomeTest.size);
-    insertionSort(insertionTest.array, insertionTest.size);
-    mergeSort(mergeTest.array, 0, mergeTest.size - 1);
-    quickSort(quickTest.array, 0, quickTest.size - 1);
-    selectionSort(selectionTest.array, selectionTest.size);
-    shellSort(shellTest.array, shellTest.size);
+  switch(type)
+  {
+    case Bubble:
+      bubbleSort(array, size);
+    case Merge:
+      mergeSort(array, 0, size - 1);
+    case Quick:
+      quickSort(array, 0, size - 1);
+    case Selection:
+      selectionSort(array, size);
+    case Insertion:
+      insertionSort(array, size);
+    case Shell:
+      shellSort(array, size);
+  }
 
-    bool passed = quickTest == bubbleTest && 
-                quickTest == gnomeTest &&
-                quickTest == insertionTest && 
-                quickTest == mergeTest && 
-                quickTest == selectionTest && 
-                quickTest == shellTest;
-
-    return passed;
+  return timer.read();
 }
 
 #endif
