@@ -19,76 +19,60 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-#include <iostream>
 #include "CodeTimer/CodeTimer.h"
 #include "sortingFunctions.h"
 
 enum SortAlgorithm
 {
-  Bubble,
-  Merge,
-  Quick,
-  Selection,
-  Insertion,
-  Shell
+    Bubble,
+    Merge,
+    Quick,
+    Selection,
+    Insertion,
+    Shell
 };
 
-/* Print an array to the console.
-Pre: Array and size provided
-Post: Array is printed to console
-*/
-template <typename T>
-void printArray(const T list[], int size)
+class TestArray
 {
-  for (int i = 0; i < size - 1; i++)
-    std::cout << list[i] << ",";
-  std::cout << list[size - 1] << std::endl;
-}
+public:
+    TestArray(int size)
+    {
+        this->size = size;
+        array = new int[size];
+    }
+    TestArray(int size, const std::string &fileName) : TestArray(size)
+    {
+        load(fileName);
+    }
+    ~TestArray()
+    {
+        delete[] array;
+    }
 
-/* Populate an array with values from the given data file
+    /* Populate the test array with values from the given data file
 
-Pre: Provide array, size, and file name
-Post: Array contains data from file
-*/
-template <typename T>
-void readArray(T array[], int size, const std::string &fileName)
-{
-  std::ifstream in;
-  in.open(fileName);
+    Pre: Provide fileName
+    Post: Array contains data from file
+    */
+    void load(const std::string &fileName);
 
-  for(int i = 0; i < size; i++)
-  {
-    in >> array[i];
-  }
-}
+    /* Print the test array to the console.
 
-/* Test a given sorting algorithm on the given data
+    Pre: None
+    Post: Array is printed to console
+    */
+    void printArray();
 
-Pre: Provide array, size, and algorithm
-Post: Return elapsed time in seconds
-*/
-template <typename T>
-double testSort(T array[], int size, SortAlgorithm type)
-{
-  CodeTimer timer;
+    /* Test sort a given sorting algorithm.
 
-  switch(type)
-  {
-    case Bubble:
-      bubbleSort(array, size);
-    case Merge:
-      mergeSort(array, 0, size - 1);
-    case Quick:
-      quickSort(array, 0, size - 1);
-    case Selection:
-      selectionSort(array, size);
-    case Insertion:
-      insertionSort(array, size);
-    case Shell:
-      shellSort(array, size);
-  }
+    Pre: Provide algorithm type
+    Post: Return sort time in seconds
+    */
+    double test(SortAlgorithm type);
 
-  return timer.read();
-}
+private:
+    int *array;
+    int size;
+};
 
 #endif

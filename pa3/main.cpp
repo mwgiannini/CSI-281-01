@@ -20,22 +20,38 @@
 #include "tests.h"
 #include <assert.h>
 #include <iomanip>
+#include <sstream>
 
 int main()
 {
-  int N = 10000;
+    std::cout << std::fixed << std::setprecision(15);
 
-  int *test = new int[N];
-  readArray(test, N, "test-2-average.dat");
-  std::cout << "Array created\n";
+    int testSize, testCase, algorithm;
+    CodeTimer timer;
 
-  double timeTaken = testSort(test, N, Merge);
+    int N[] =                       { 100, 10000, 1000000 };
+    std::string cases[] =           { "average", "best", "worst" };
+    SortAlgorithm algorithms[] =    { Bubble, Merge, Quick, Selection, Insertion, Shell };
 
-  std::cout << std::fixed << std::setprecision(15);
-  std::cout << "The test took  " << timeTaken << " seconds.\n";
+    for(testSize = 1; testSize <= 3; testSize++)
+    {
+        for(testCase = 0; testCase < 3; testCase++)
+        {
+            std::stringstream file;
+            file << "test-" << testSize << "-" << cases[testCase] << ".dat";
 
-  system("pause");
-  delete [] test;
+            std::cout << "Testing file: " + file.str() + "\n";
 
-  return 0;
+            TestArray current(N[testSize - 1], file.str());
+
+            for(algorithm = 0; algorithm < 6; algorithm++)
+            {
+                timer.start();
+                current.test(algorithms[algorithm]);
+                double result = timer.read();
+            }
+        }
+    }
+
+    return 0;
 }
