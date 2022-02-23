@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "tests.h"
+#include "CodeTimer2/CodeTimer.h"
 
 void TestArray::load(const std::string &fileName)
 {

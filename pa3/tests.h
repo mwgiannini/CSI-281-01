@@ -19,7 +19,6 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-#include "CodeTimer/CodeTimer.h"
 #include "sortingFunctions.h"
 
 enum SortAlgorithm

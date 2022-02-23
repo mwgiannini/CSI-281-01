@@ -18,37 +18,38 @@
 
 #include "generateData.h"
 #include "tests.h"
+#include "CodeTimer2/CodeTimer.h"
 #include <assert.h>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 
 int main()
 {
-    std::cout << std::fixed << std::setprecision(15);
+    std::cout << std::fixed << std::setprecision(20);
 
     int testSize, testCase, algorithm;
-    CodeTimer timer;
+    double result;
 
     int N[] =                       { 100, 10000, 1000000 };
     std::string cases[] =           { "average", "best", "worst" };
-    SortAlgorithm algorithms[] =    { Bubble, Merge, Quick, Selection, Insertion, Shell };
+    std::string algorithms[] =      { "Bubble", "Merge", "Quick", "Selection", "Insertion", "Shell" };
 
-    for(testSize = 1; testSize <= 3; testSize++)
+    for(testSize = 0; testSize < 2; testSize++)
     {
         for(testCase = 0; testCase < 3; testCase++)
         {
             std::stringstream file;
-            file << "test-" << testSize << "-" << cases[testCase] << ".dat";
-
+            file << "test-" << (testSize + 1) << "-" << cases[testCase] << ".dat";
             std::cout << "Testing file: " + file.str() + "\n";
 
-            TestArray current(N[testSize - 1], file.str());
+            TestArray current(N[testSize], file.str()); // Use TestArray class to make testing easy
 
             for(algorithm = 0; algorithm < 6; algorithm++)
             {
-                timer.start();
-                current.test(algorithms[algorithm]);
-                double result = timer.read();
+                result = current.test(static_cast<SortAlgorithm>(algorithm));
+
+                std::cout << "The " << algorithms[algorithm] << " sort took " << result << " seconds.\n";
             }
         }
     }
