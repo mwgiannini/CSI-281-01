@@ -173,7 +173,8 @@ Post: list is sorted in ascending order between the bounds
 template <typename T>
 void quickSort(T list[], int lowerBound, int upperBound)
 {
-    int pivot, i, j;
+    T pivot;
+    int i, j;
 
     i = lowerBound;
     j = upperBound;

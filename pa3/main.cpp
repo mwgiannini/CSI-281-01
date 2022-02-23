@@ -26,33 +26,38 @@
 
 int main()
 {
-    std::cout << std::fixed << std::setprecision(20);
-
     int testSize, testCase, algorithm;
     double result;
+
+    std::ofstream resultFile;
+    resultFile.open("results.dat");
+    resultFile << std::fixed << std::setprecision(20);
 
     int N[] =                       { 100, 10000, 1000000 };
     std::string cases[] =           { "average", "best", "worst" };
     std::string algorithms[] =      { "Bubble", "Merge", "Quick", "Selection", "Insertion", "Shell" };
 
-    for(testSize = 0; testSize < 2; testSize++)
+    for(testSize = 0; testSize < 3; testSize++)
     {
         for(testCase = 0; testCase < 3; testCase++)
         {
-            std::stringstream file;
-            file << "test-" << (testSize + 1) << "-" << cases[testCase] << ".dat";
-            std::cout << "Testing file: " + file.str() + "\n";
+            std::stringstream testFile;
+            testFile << "test-" << (testSize + 1) << "-" << cases[testCase] << ".dat";
+            resultFile << "Testing file: " + testFile.str() + "\n";
 
-            TestArray current(N[testSize], file.str()); // Use TestArray class to make testing easy
+            TestArray current(N[testSize], testFile.str()); // Use TestArray class to make testing easy
 
             for(algorithm = 0; algorithm < 6; algorithm++)
             {
                 result = current.test(static_cast<SortAlgorithm>(algorithm));
 
-                std::cout << "The " << algorithms[algorithm] << " sort took " << result << " seconds.\n";
+                resultFile << "    ";
+                resultFile << std::left << std::setw(15) << algorithms[algorithm];
+                resultFile << std::right << std::setw(30) << result << " seconds\n";
             }
         }
     }
 
+    resultFile.close();
     return 0;
 }
