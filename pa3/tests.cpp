@@ -8,9 +8,9 @@ void TestArray::load(const std::string &fileName)
     std::ifstream in;
     in.open(fileName);
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < mSize; i++)
     {
-        in >> array[i];
+        in >> mArray[i];
     }
 
     in.close();
@@ -18,34 +18,40 @@ void TestArray::load(const std::string &fileName)
 
 void TestArray::printArray()
 {
-    for (int i = 0; i < size - 1; i++)
-        std::cout << array[i] << ",";
-    std::cout << array[size - 1] << std::endl;
+    for (int i = 0; i < mSize - 1; i++)
+        std::cout << mArray[i] << ",";
+    std::cout << mArray[mSize - 1] << std::endl;
 }
 
 double TestArray::test(SortAlgorithm type)
 {
     // Create a copy for testing
-    int *tempArray = new int[size];
-    for(int i = 0; i < size; i++)
-        tempArray[i] = array[i];
+    int *tempArray = new int[mSize];
+    for(int i = 0; i < mSize; i++)
+        tempArray[i] = mArray[i];
 
     CodeTimer timer;
 
     switch (type)
     {
     case Bubble:
-        bubbleSort(tempArray, size);
+        bubbleSort(tempArray, mSize);
+        break;
     case Merge:
-        mergeSort(tempArray, 0, size - 1);
+        mergeSort(tempArray, 0, mSize - 1);
+        break;
     case Quick:
-        quickSort(tempArray, 0, size - 1);
+        quickSort(tempArray, 0, mSize - 1);
+        break;
     case Selection:
-        selectionSort(tempArray, size);
+        selectionSort(tempArray, mSize);
+        break;
     case Insertion:
-        insertionSort(tempArray, size);
+        insertionSort(tempArray, mSize);
+        break;
     case Shell:
-        shellSort(tempArray, size);
+        shellSort(tempArray, mSize);
+        break;
     }
 
     delete [] tempArray;

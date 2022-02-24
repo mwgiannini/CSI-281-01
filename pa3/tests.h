@@ -36,8 +36,8 @@ class TestArray
 public:
     TestArray(int size)
     {
-        this->size = size;
-        array = new int[size];
+        this->mSize = size;
+        mArray = new int[size];
     }
     TestArray(int size, const std::string &fileName) : TestArray(size)
     {
@@ -45,7 +45,7 @@ public:
     }
     ~TestArray()
     {
-        delete[] array;
+        delete[] mArray;
     }
 
     /* Populate the test array with values from the given data file
@@ -70,8 +70,8 @@ public:
     double test(SortAlgorithm type);
 
 private:
-    int *array;
-    int size;
+    int *mArray;
+    int mSize;
 };
 
 #endif

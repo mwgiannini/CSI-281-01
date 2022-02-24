@@ -30,7 +30,7 @@ int main()
     double result;
 
     std::ofstream resultFile;
-    resultFile.open("results.dat");
+    resultFile.open("results2.dat");
     resultFile << std::fixed << std::setprecision(20);
 
     int N[] =                       { 100, 10000, 1000000 };
@@ -45,11 +45,11 @@ int main()
             testFile << "test-" << (testSize + 1) << "-" << cases[testCase] << ".dat";
             resultFile << "Testing file: " + testFile.str() + "\n";
 
-            TestArray current(N[testSize], testFile.str()); // Use TestArray class to make testing easy
+            TestArray testArray(N[testSize], testFile.str()); // Use TestArray class to make testing easy
 
             for(algorithm = 0; algorithm < 6; algorithm++)
             {
-                result = current.test(static_cast<SortAlgorithm>(algorithm));
+                result = testArray.test(static_cast<SortAlgorithm>(algorithm));
 
                 resultFile << "    ";
                 resultFile << std::left << std::setw(15) << algorithms[algorithm];
