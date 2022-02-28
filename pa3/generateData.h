@@ -19,7 +19,6 @@
 #ifndef GENERATEDATA_H
 #define GENERATEDATA_H
 
-#include <random>
 #include <iostream>
 #include <fstream>
 #include "sortingFunctions.h"
@@ -47,11 +46,11 @@ void generateDataFiles()
     int *array2 = new int[SIZE2];
     int *array1 = new int[SIZE1];
 
-    srand(SEED);
+    std::srand(SEED);
 
     for (int i = 0; i < SIZE3; i++)
     {
-        int value = rand() % MAX_VALUE + 1;
+        int value = std::rand() % MAX_VALUE + 1;
 
         array3[i] = value;
         if(i >= SIZE2) continue;

@@ -3,7 +3,7 @@
     Assignment: PA3
     Date Assigned: 02/21/2022
     Due Date: 02/28/2022
-    Description: A simple interface for using the chrono library to time code execution.
+    Description: A simple interface for timing code execution on both unix and windows OS.
     Certification of Authenticity:
     I certify that this is entirely my own work, except where I have given
     fully-documented references to the work of others. I understand the definition and
@@ -19,7 +19,15 @@
 #ifndef CODETIMER_H
 #define CODETIMER_H
 
-#include <chrono>
+// For Windows OS
+#if defined(_WIN32) || defined(WIN32)
+#include <windows.h>
+
+// For Unix based OS
+#else
+#include <sys/time.h>
+#endif
+
 
 class CodeTimer
 {
@@ -41,7 +49,11 @@ public:
     */
     double read();
 private:
-    std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+#if defined(_WIN32) || defined(WIN32)
+    LARGE_INTEGER startTime, endTime, frequency;
+#else
+    timeval startTime, endTime;
+#endif
 };
 
 #endif

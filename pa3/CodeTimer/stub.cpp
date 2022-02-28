@@ -3,7 +3,7 @@
     Assignment: PA3
     Date Assigned: 02/21/2022
     Due Date: 02/28/2022
-    Description: A simple interface for using the chrono library to time code execution.
+    Description: A simple interface for timing code execution on both unix and windows OS.
     Certification of Authenticity:
     I certify that this is entirely my own work, except where I have given
     fully-documented references to the work of others. I understand the definition and
@@ -28,7 +28,14 @@ int main()
         std::cout << "test\n";
 
     std::cout << std::fixed << std::setprecision(15);
-    std::cout << "It took " << timer.read() << " seconds to print 5,000 lines";
+    std::cout << "It took " << timer.read() << " seconds to print 5,000 lines\n\n";
+
+    timer.start();
+
+    std::cout << "test\n";
+
+    std::cout << std::fixed << std::setprecision(15);
+    std::cout << "It took " << timer.read() << " seconds to print 1 lines\n";
 
     return 0;
 }

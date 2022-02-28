@@ -3,7 +3,7 @@
     Assignment: PA3
     Date Assigned: 02/21/2022
     Due Date: 02/28/2022
-    Description: A simple interface for using the chrono library to time code execution.
+    Description: A simple interface for timing code execution on both unix and windows OS.
     Certification of Authenticity:
     I certify that this is entirely my own work, except where I have given
     fully-documented references to the work of others. I understand the definition and
@@ -18,23 +18,40 @@
 
 #include "CodeTimer.h"
 
-#include <chrono>
-
 CodeTimer::CodeTimer()
 {
-    startTime = std::chrono::high_resolution_clock::now();
+#if defined(_WIN32) || defined(WIN32)
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&startTime);
+#else
+    gettimeofday(&startTime, NULL);
+#endif
 }
 
 void CodeTimer::start()
 {
-    startTime = std::chrono::high_resolution_clock::now();
+#if defined(_WIN32) || defined(WIN32)
+    QueryPerformanceCounter(&startTime);
+#else
+    gettimeofday(&startTime, NULL);
+#endif
 }
 
 double CodeTimer::read()
 {
-    double NANOSECONDS = 1000000000.0; // Nanoseconds in a second
-    auto endTime = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime) / NANOSECONDS;
+    double startSeconds, endSeconds;
 
-    return elapsed.count();
+#if defined(_WIN32) || defined(WIN32)
+    QueryPerformanceCounter(&endTime);
+
+    startSeconds = static_cast<double>(startTime.QuadPart) / static_cast<double>(frequency.QuadPart);
+    endSeconds = static_cast<double>(endTime.QuadPart) / static_cast<double>(frequency.QuadPart);
+#else
+    gettimeofday(&endTime, NULL);
+
+    startTimeInMicroSec = startTime.tv_sec + (startTime.tv_usec * 1000000.0);
+    endTimeInMicroSec = endTime.tv_sec + (endTime.tv_usec * 1000000.0);
+#endif
+
+    return endSeconds - startSeconds;
 }

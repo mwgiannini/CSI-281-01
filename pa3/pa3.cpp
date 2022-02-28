@@ -3,7 +3,7 @@
     Assignment: PA3
     Date Assigned: 02/21/2022
     Due Date: 02/28/202
-    Description: A stub driver to test sortingFunctions.h
+    Description: Main function to test pa3 algorithms
     Certification of Authenticity:
     I certify that this is entirely my own work, except where I have given
     fully-documented references to the work of others. I understand the definition and
@@ -16,9 +16,8 @@
     plagiarism checking)
 */
 
-#include "generateData.h"
 #include "tests.h"
-#include "CodeTimer2/CodeTimer.h"
+#include "CodeTimer/CodeTimer.h"
 #include <assert.h>
 #include <iomanip>
 #include <sstream>
@@ -30,7 +29,7 @@ int main()
     double result;
 
     std::ofstream resultFile;
-    resultFile.open("results2.dat");
+    resultFile.open("results.dat");
     resultFile << std::fixed << std::setprecision(20);
 
     int N[] =                       { 100, 10000, 1000000 };
@@ -43,9 +42,11 @@ int main()
         {
             std::stringstream testFile;
             testFile << "test-" << (testSize + 1) << "-" << cases[testCase] << ".dat";
-            resultFile << "Testing file: " + testFile.str() + "\n";
 
-            TestArray testArray(N[testSize], testFile.str()); // Use TestArray class to make testing easy
+            // Use TestArray class to conduct tests
+            TestArray testArray(N[testSize], testFile.str());
+            
+            resultFile << "Testing file: " + testFile.str() + "\n";
 
             for(algorithm = 0; algorithm < 6; algorithm++)
             {
