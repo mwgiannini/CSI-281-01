@@ -16,44 +16,42 @@
     plagiarism checking)
 */
 
-#ifndef CODETIMER_H
-#define CODETIMER_H
+#include "CodeTimer.h"
 
-// For Windows OS
-#if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
-
-// For Unix based OS
-#else
-#include <sys/time.h>
-#endif
-
-
-class CodeTimer
+CodeTimer::CodeTimer()
 {
-public:
-    CodeTimer();
-
-    /* Start the timer
-
-    Pre: None
-    Post: Record the current time
-    */
-    void start();
-
-    /* Read the timer
-
-    Pre: None
-    Post: Return the time in seconds since start was last called
-    If start was never called, return the age of the timer object
-    */
-    double read();
-private:
 #if defined(_WIN32) || defined(WIN32)
-    LARGE_INTEGER startTime, endTime, frequency;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&startTime);
 #else
-    timeval startTime, endTime;
+    gettimeofday(&startTime, NULL);
 #endif
-};
+}
 
+void CodeTimer::start()
+{
+#if defined(_WIN32) || defined(WIN32)
+    QueryPerformanceCounter(&startTime);
+#else
+    gettimeofday(&startTime, NULL);
 #endif
+}
+
+double CodeTimer::read()
+{
+    double startSeconds, endSeconds;
+
+#if defined(_WIN32) || defined(WIN32)
+    QueryPerformanceCounter(&endTime);
+
+    startSeconds = static_cast<double>(startTime.QuadPart) / static_cast<double>(frequency.QuadPart);
+    endSeconds = static_cast<double>(endTime.QuadPart) / static_cast<double>(frequency.QuadPart);
+#else
+    gettimeofday(&endTime, NULL);
+
+    startSeconds = startTime.tv_sec + (startTime.tv_usec / 1000000.0);
+    endSeconds = endTime.tv_sec + (endTime.tv_usec / 1000000.0);
+#endif
+
+    return endSeconds - startSeconds;
+}
