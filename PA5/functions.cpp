@@ -17,86 +17,122 @@
 
 #include "header.h"
 
-std::string toPostFix(const std::string &infix)
+double evalPostFix(const std::string& in)
 {
-    if (infix.length() == 0) return "";
+    double operand, firstOperand, secondOperand, result;
+    char character;
+    Stack<double> operandStack;
+    stringstream infix(in);
 
-    std:string postfix;
-    Stack<char> operatorStack;
-    Queue<char> operandQueue;
-    unordered_map<char, int> precedence{
-        {'(', -1},{'-', 0},{'+', 0},{'*', 1},{'/', 1},{'^', 2}
-    };
-    unordered_map<char, std::string> associativity{
-        {'-', "left"},{'+', "left"},{'*', "left"},{'/', "left"},{'^', "right"}
-    };
-
-    for(const char& character : infix)
+    while (infix.get(character))
     {
-        if(character == ' ') continue;
+        if (character == ' ') continue;
 
-        // Place digits in a queue to handle longer numbers
-        if(character >= '0' && character <= '9')
-            operandQueue.enqueue(character);
-        else
+        // Add operands to a stack
+        else if (isdigit(character))
         {
-            // Empty the operand queue when reading an operator
-            if(!operandQueue.isEmpty())
-            {
-                while(!operandQueue.isEmpty())
-                    postfix += operandQueue.dequeue();
-                postfix += " ";
-            }
-
-            if (character == ')')
-            {
-                while (operatorStack.peekTop() != '(')
-                {
-                    postfix += operatorStack.pop();
-                    postfix += " ";
-                }
-                operatorStack.pop();
-            }
-
-            else if (   character == '('                ||
-                        operatorStack.isEmpty()         ||
-                        operatorStack.peekTop() == '('  ||
-                        precedence[character] > precedence[operatorStack.peekTop()])
-            {
-                operatorStack.push(character);
-            }
-
-            // For right associative operators such as ^
-            else if (   precedence[character] == precedence[operatorStack.peekTop()] &&
-                        associativity[character] == "right")
-            {
-                operatorStack.push(character);
-            }
-            
-            else
-            {
-                while ( !operatorStack.isEmpty()            &&
-                        operatorStack.peekTop() != '('      && 
-                        precedence[character] <= precedence[operatorStack.peekTop()])
-                {
-                    postfix += operatorStack.pop();
-                    postfix += " ";
-                }
-                operatorStack.push(character);
-            }
+            infix.putback(character);
+            infix >> operand;
+            operandStack.push(operand);
         }
+        // Operate on the top two operands
+        else if (character == '+' || character == '-' ||
+            character == '/' || character == '*' ||
+            character == '^')
+        {
+            secondOperand = operandStack.pop();
+            firstOperand = operandStack.pop();
+
+            switch (character)
+            {
+            case '+':
+                result = firstOperand + secondOperand;
+                break;
+            case '-':
+                result = firstOperand - secondOperand;
+                break;
+            case '*':
+                result = firstOperand * secondOperand;
+                break;
+            case '/':
+                result = firstOperand / secondOperand;
+                break;
+            case '^':
+                result = pow(firstOperand, secondOperand);
+                break;
+            }
+            operandStack.push(result);
+        }
+
+        else
+            throw "Expression contains invalid character";
     }
-    if (!operandQueue.isEmpty())
+    return operandStack.pop();
+}
+
+std::string toPostFix(const std::string &in)
+{
+    int openParCount = 0, closeParCount = 0, operandCount = 0, operatorCount = 0;
+    char character;
+    double operand;
+    stringstream infix(in);
+    stringstream postfix;
+    Stack<char> operatorStack;
+    string postfixString;
+
+    while(infix.get(character))
     {
-        while (!operandQueue.isEmpty())
-            postfix += operandQueue.dequeue();
-        postfix += " ";
+        if (character == ' ') continue;
+
+        // Add operands to the postfix expression
+        else if (isdigit(character))
+        {
+            infix.putback(character);
+            infix >> operand;
+            postfix << operand << " ";
+            operandCount++;
+        }
+        // Empty the operator stack when closing a set of parentheses
+        else if (character == ')')
+        {
+            while (operatorStack.peekTop() != '(')
+                postfix << operatorStack.pop() << " ";
+            operatorStack.pop();
+            closeParCount++;
+        }
+        // Add open parentheses and operators to the operator stack
+        else if (character == '(')
+        {
+            operatorStack.push(character);
+            openParCount++;
+        }
+        else if (character == '+' || character == '-' ||
+            character == '/' || character == '*' ||
+            character == '^')
+        {
+            operatorStack.push(character);
+            operatorCount++;
+        }
+
+        else
+            throw "Expression contains invalid character";
     }
+    // Empty the rest of the operator stack
     while(!operatorStack.isEmpty())
-    {
-        postfix += operatorStack.pop();
-        postfix += " ";
-    }
-    
-    return postfix.substr(0, postfix.length() - 1);
+        postfix << operatorStack.pop() << " ";
+
+    // Handle exceptions
+    if (closeParCount != openParCount)
+        throw "Expression contains unpaired parentheses";
+    else if (operatorCount < openParCount)
+        throw "Expression is missing an operator";
+    else if (operandCount - 1 > operatorCount)
+        throw "Expression contains an extra operand";
+    else if (operandCount - 1 < operatorCount || operatorCount > openParCount)
+        throw "Expression is not fully parenthesized";
+
+    // Remove extra space after last character before returning
+    postfixString = postfix.str();
+    postfixString = postfixString.substr(0, postfixString.length() - 1);
+    return postfixString;
 }

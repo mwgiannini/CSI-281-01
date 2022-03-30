@@ -22,9 +22,37 @@
 int main()
 {
 	assert(toPostFix("((10 - (2 + 3)) * 2)") == "10 2 3 + - 2 *");
-	assert(toPostFix("6+9+(4*2+4^2)") == "6 9 + 4 2 * 4 2 ^ + +");
-	assert(toPostFix("2*20/2+(3+4)*3^2-6+15") == "2 20 * 2 / 3 4 + 3 2 ^ * + 6 - 15 +");
-	assert(toPostFix("(18/3)^2+((13+7)*5^2)") == "18 3 / 2 ^ 13 7 + 5 2 ^ * +");
+
+	string infix, postfix, response;
+	bool quit = false, validInfix;
+
+	while (!quit)
+	{
+		cout << "\nEnter an fully-parenthesized infix expression: \n";
+		
+		// Use exception handling for invalid expressions
+		try
+		{
+			getline(cin, infix);
+			postfix = toPostFix(infix);
+
+			cout << "Postfix: " << postfix << endl;
+			cout << "Evaluated: " << evalPostFix(postfix) << endl;
+		}
+		catch (const char *exception)
+		{
+			cout << exception << endl;
+		}
+
+		response = "";
+		while (response != "y" && response != "Y" &&
+			response != "n" && response != "N")
+		{
+			cout << "Would you like to evaluate another expression? (y/n)";
+			getline(cin, response);
+		}
+		quit = response == "n" || response == "N";
+	}
 
 	return 0;
 }

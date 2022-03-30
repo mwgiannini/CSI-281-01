@@ -21,9 +21,22 @@
 #include <sstream>
 #include <unordered_map>
 #include "stack.h"
-#include "queue.h"
+
+/*
+* Pre: Given a string containing a valid postfix expression.
+* Post: Return a double containing the value of the given expression.
+*		Throw exception for invalid characters in input expression.
+* Summary: Evaluate a postfix expression.
+*/
+double evalPostFix(const std::string& in);
 
 
+/*
+* Pre: Given a string containing a infix expression.
+* Post: Return the valid, equivalent postfix expression.
+*		Throw exception if the input is not a valid infix expression.
+* Summary: Convert an infix expression to postfix.
+*/
 std::string toPostFix(const std::string &s);
 
 #endif

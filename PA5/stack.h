@@ -1,4 +1,4 @@
-/* ***       Author:  Wei Kian Chen with students in CSI-281 | Modified to add accessor for mTop
+/* ***       Author:  Wei Kian Chen with students in CSI-281 | Modified by MWG to add accessor for mTop
      *  Last Update:  March 3, 2020
      *        Class:  CSI-281
      *     Filename:  stack.h
@@ -192,7 +192,7 @@ template <typename T>
 T Stack<T>::peekTop()
 {
    if(mTop == nullptr)
-      return 0;
+      return T();
    return mTop->mData;
 }
 
