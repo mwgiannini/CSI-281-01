@@ -12,7 +12,7 @@
  * @ ~~~~~: - Communicate a copy of this assignment to a plagiarism checking service (which may
  * @ ~~~~~~: then retain a copy of this assignment on its database for the purpose of future
  * @ ~~~~~~~: plagiarism checking)
- * @ Description: A scientific calculator implementation.
+ * @ Description: A scientific calculator implementation to solve fully parenthesized expressions.
  */
 
 #include "header.h"
@@ -58,7 +58,7 @@ double evalPostFix(const std::string& in)
                 result = firstOperand / secondOperand;
                 break;
             case '^':
-                result = pow(firstOperand, secondOperand);
+                result = std::pow(firstOperand, secondOperand);
                 break;
             }
             operandStack.push(result);
@@ -76,8 +76,9 @@ std::string toPostFix(const std::string &in)
     char character;
     double operand;
     stringstream infix(in);
-    stringstream postfix;
+    stringstream convertFloatToString;
     Stack<char> operatorStack;
+    Queue<string> postfixQueue; // Using a queue but easily could be a stringstream
     string postfixString;
 
     while(infix.get(character))
@@ -89,14 +90,17 @@ std::string toPostFix(const std::string &in)
         {
             infix.putback(character);
             infix >> operand;
-            postfix << operand << " ";
+            // A bit ugly to use queue here like this
+            convertFloatToString.str("");
+            convertFloatToString << operand;
+            postfixQueue.enqueue(convertFloatToString.str());
             operandCount++;
         }
-        // Empty the operator stack when closing a set of parentheses
+        // Empty the operator stack into the queue when closing a set of parentheses
         else if (character == ')')
         {
             while (operatorStack.peekTop() != '(')
-                postfix << operatorStack.pop() << " ";
+                postfixQueue.enqueue(string(1, operatorStack.pop()));
             operatorStack.pop();
             closeParCount++;
         }
@@ -119,20 +123,20 @@ std::string toPostFix(const std::string &in)
     }
     // Empty the rest of the operator stack
     while(!operatorStack.isEmpty())
-        postfix << operatorStack.pop() << " ";
+        postfixQueue.enqueue(to_string(operatorStack.pop()));
 
     // Handle exceptions
     if (closeParCount != openParCount)
         throw "Expression contains unpaired parentheses";
-    else if (operatorCount < openParCount)
-        throw "Expression is missing an operator";
-    else if (operandCount - 1 > operatorCount)
-        throw "Expression contains an extra operand";
-    else if (operandCount - 1 < operatorCount || operatorCount > openParCount)
-        throw "Expression is not fully parenthesized";
+    else if (operandCount - 1 != operatorCount || operatorCount != openParCount)
+        throw "Expression is invalid";
 
-    // Remove extra space after last character before returning
-    postfixString = postfix.str();
-    postfixString = postfixString.substr(0, postfixString.length() - 1);
+    // Empty queue into a string and return
+    while (postfixQueue.getCount() > 1)
+    {
+        postfixString += postfixQueue.dequeue();
+        postfixString += " ";
+    }
+    postfixString += postfixQueue.dequeue();
     return postfixString;
 }

@@ -12,15 +12,16 @@
  * @ ~~~~~: - Communicate a copy of this assignment to a plagiarism checking service (which may
  * @ ~~~~~~: then retain a copy of this assignment on its database for the purpose of future
  * @ ~~~~~~~: plagiarism checking)
- * @ Description: A scientific calculator implementation.
+ * @ Description: A scientific calculator implementation to solve fully parenthesized expressions.
  */
 #ifndef HEADER_H
 #define HEADER_H
 
 #include <string>
 #include <sstream>
-#include <unordered_map>
+#include <math.h>
 #include "stack.h"
+#include "queue.h"
 
 /*
 * Pre: Given a string containing a valid postfix expression.

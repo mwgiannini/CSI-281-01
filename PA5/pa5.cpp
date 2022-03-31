@@ -12,7 +12,7 @@
  * @ ~~~~~: - Communicate a copy of this assignment to a plagiarism checking service (which may
  * @ ~~~~~~: then retain a copy of this assignment on its database for the purpose of future
  * @ ~~~~~~~: plagiarism checking)
- * @ Description: A scientific calculator implementation.
+ * @ Description: A scientific calculator implementation to solve fully parenthesized expressions.
  */
 
 #include <iostream>
@@ -30,7 +30,6 @@ int main()
 	{
 		cout << "\nEnter an fully-parenthesized infix expression: \n";
 		
-		// Use exception handling for invalid expressions
 		try
 		{
 			getline(cin, infix);
@@ -51,7 +50,7 @@ int main()
 			cout << "Would you like to evaluate another expression? (y/n)";
 			getline(cin, response);
 		}
-		quit = response == "n" || response == "N";
+		quit = (response == "n" || response == "N");
 	}
 
 	return 0;
