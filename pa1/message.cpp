@@ -21,6 +21,7 @@
 #include <sstream>
 #include "message.h"
 #include "codebook.h"
+#include "CodeTimer.h"
 
 Message::Message(const std::string &inputFileName)
 {
@@ -36,7 +37,11 @@ Message::Message(const std::string &inputFileName)
 
 void Message::encrypt(const std::string &outputFilePath, const Codebook &codebook)
 {
+    CodeTimer timer;
+    double encryptionTime;
     std::stringstream output;
+
+    timer.start();
     for (int i = 0; i < this->numWords; i++)
     {
         output << codebook.retrieveCodeFor(words[i]);
@@ -44,9 +49,11 @@ void Message::encrypt(const std::string &outputFilePath, const Codebook &codeboo
         // Omit space after the last word
         if(i < this->numWords-1) output << " ";
     }
+    encryptionTime = timer.read();
 
     std::ofstream outfile(outputFilePath);
     outfile << output.str();
     
     std::cout << "File has been saved to " << outputFilePath << "." << std::endl;
+    std::cout << "Encryption time: " << encryptionTime << " seconds" << std::endl;
 }
